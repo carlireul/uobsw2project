@@ -1,0 +1,68 @@
+{%extends "base.html" %} 
+{%block content%}
+
+<h1 class="fs-3"> {{ title }} </h1> 
+
+<style>
+    .input-field {
+        width: 30ch; /* or any other desired width */
+    }
+</style>
+
+<form method="POST" action="{{ url_for('register') }}" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.username.label }}<br/>{{ form.username(class="input-field") }}
+        {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.email.label }}<br/>{{ form.email(class="input-field") }}
+        {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.dob.label}}<br/>{{ form.dob(class="input-field") }}
+    </div>
+    <div class="mb-3">
+        {{ form.phone.label}}<br/>{{ form.phone(class="input-field") }}
+        {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.address.label}}<br/>{{ form.address(class="input-field") }}
+        {% for error in form.address.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.height.label}}<br/>{{ form.height(class="input-field") }}
+        {% for error in form.height.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.weight.label}}<br/>{{ form.weight(class="input-field") }}
+        {% for error in form.weight.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.password.label }}<br/>{{ form.password(class="input-field") }}
+        {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.confirm_password.label }}<br/>{{ form.confirm_password(class="input-field") }}
+        {% for error in form.confirm_password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">{{ form.submit() }}</div>
+</form>
+
+{% endblock %}

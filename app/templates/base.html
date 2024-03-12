@@ -1,0 +1,45 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercises</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head> 
+<body> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('index')}}">Home</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('borrow')}}">Borrow</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('return_loan')}}">Return</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('add_student')}}">Add Student</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('remove_student')}}">Remove Student</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('reports')}}">Reports</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('view_students')}}">View Students</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('deactivate')}}">Deactivate</a></li>
+        </ul>
+        <ul class="navbar-nav ms-auto"> <!-- ms auto moves item to far right, while me auto keeps it on the left -->
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('register')}}">Register</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('login')}}">Login</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h1 class="text-center"> Databases </h1>
+
+    {% block content %} 
+    {% endblock %} 
+
+    </main>
+</body>
+</html>

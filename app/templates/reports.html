@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{%block content%}
+
+<h1 class="fs-3"> Request Report Generation </h1> 
+
+<form method="POST" action="{{ url_for('reports') }}" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.student_id.label }}<br/>{{ form.student_id(size=30) }}<br/>
+        {% for error in form.student_id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.device_id.label }}<br/>{{ form.device_id(size=30) }}<br/>
+        {% for error in form.device_id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div class="mb-3">{{ form.submit() }}</div>
+</form>
+
+
+{% if form.is_submitted() %}
+    {% if device_data %}
+        <h3>Device Information</h3>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Device ID</th>
+                        <th>Borrowed Date</th>
+                        <th>Returned Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ device_data.device_id }}</td>
+                        <td>{{ device_data.borrowdatetime }}</td>
+                        <td>{{ device_data.returndatetime }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No device information found for the specified device ID.</p>
+    {% endif %}
+{% endif %}
+
+{% if form.is_submitted() %}
+    {% if student_data %}
+        <h3>Student Loan Information</h3>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Borrowed Date</th>
+                        <th>Returned Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ student_data.student_id }}</td>
+                        <td>{{ student_data.borrowdatetime }}</td>
+                        <td>{{ student_data.returndatetime }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No device information found for the specified student ID.</p>
+    {% endif %}
+{% endif %}
+
+{%endblock%}
