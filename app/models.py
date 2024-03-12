@@ -1,14 +1,20 @@
 from app import db
  
+
 class Student(db.Model):
-	__tablename__ = 'students'
-	student_id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(20), nullable=False, unique=True, index=True)
-	firstname = db.Column(db.String(32))
-	lastname = db.Column(db.String(32), nullable=False, index=True)
-	email = db.Column(db.String(64), nullable=False, unique=True, index=True)
-	deactivate = db.Column(db.Boolean, default=False)  # New column for deactivation
-	loans = db.relationship('Loan', backref='student', lazy='dynamic')
+    __tablename__ = 'students'
+    student_id = db.Column(db.Integer, primary_key=True,
+                           unique=True, nullable=False)
+    username = db.Column(db.String(20), nullable=False,
+                         unique=True, index=True)
+    firstname = db.Column(db.String(32))
+    lastname = db.Column(db.String(32), nullable=False, index=True)
+    email = db.Column(db.String(64), nullable=False, unique=True, index=True)
+    active = db.Column(db.Boolean, default=True)
+    loans = db.relationship('Loan', backref='student', lazy='dynamic')
+
+    def __repr__(self):
+        return f"student('{self.username}', '{self.lastname}', '{self.firstname}' , '{self.email}', '{self.active}')"
 
 def __repr__(self):
 	return f"student('{self.usernamename}', '{self.lastname}', '{self.firstname}', '{self.email}')"

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
-from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateForm
+from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm
 from app.models import Student, Loan
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
@@ -141,28 +141,29 @@ def reports():
 
     return render_template('reports.html', title="Reports", form=form, device_data=device, student_data=student)
 
-@app.route('/view_students', methods=['GET', 'POST'])
-def view_students():
-    form = AddStudentForm
-    students = Student.query.all()
-    
-    return render_template('view_students.html', title="All Students", students=students, form=form)
 
 @app.route('/deactivate', methods=['GET', 'POST'])
 def deactivate():
-    form = DeactivateForm()
-    
+    form = DeactivateStudentForm()
+
     if form.validate_on_submit():
-        # username = form.username.data.strip() # remove any trailing white space that may be entered when creating the username 
-        # email = form.email.data.strip() # this is another way of doing it without having form.username.data and just username 
-        student = Student.query.filter_by(username=form.username.data, email=form.email.data).first()
-        
-        if student:
-            student.deactivate = True
+        id = form.student_id.data
+
+        try:
+            student = Student.query.filter_by(student_id=id).first()
+            student.active = False
             db.session.commit()
-            flash('Student deactivated successfully!', 'success')
-            return redirect(url_for('view_students'))
-        else:
-            flash('Student not found. Please check the username and email.', 'danger')
-                
+            flash(f'Student #{id} deactivated', 'success')
+            return redirect(url_for('index'))
+        except:
+            db.session.rollback()
+
     return render_template('deactivate.html', form=form)
+
+
+@app.route('/display_students')
+def display_students():
+
+    students = Student.query.all()
+
+    return render_template('view_students.html', students=students)
