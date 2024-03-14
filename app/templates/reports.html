@@ -22,23 +22,25 @@
 
 
 {% if form.is_submitted() %}
-    {% if device_data %}
-        <h3>Device Information</h3>
+    {% if loan_data %}
+        <h3>Device #{{ loan_data[0].device_id }} ({{ loan_data[0].device.device_type }}) Information</h3>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th>Device ID</th>
+                        <th>Borrowed By</th>
                         <th>Borrowed Date</th>
                         <th>Returned Date</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for loan in loan_data %}
                     <tr>
-                        <td>{{ device_data.device_id }}</td>
-                        <td>{{ device_data.borrowdatetime }}</td>
-                        <td>{{ device_data.returndatetime }}</td>
+                        <td>#{{ loan.student.student_id}} {{ loan.student.firstname}} {{ loan.student.lastname}}</td>
+                        <td>{{ loan.borrowdatetime }}</td>
+                        <td>{{ loan.returndatetime }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -49,22 +51,26 @@
 
 {% if form.is_submitted() %}
     {% if student_data %}
-        <h3>Student Loan Information</h3>
+        <h3>Student #{{ student_data.student_id }} Loan Information</h3>
         <div class="table-responsive">
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th>Student ID</th>
+                        <th>Device ID</th>
+                        <th>Device Type</th>
                         <th>Borrowed Date</th>
                         <th>Returned Date</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for loan in student_data.loans %}
                     <tr>
-                        <td>{{ student_data.student_id }}</td>
-                        <td>{{ student_data.borrowdatetime }}</td>
-                        <td>{{ student_data.returndatetime }}</td>
+                        <td>{{ loan.device_id}} </td>
+                        <td>{{ loan.device.device_type }}</td>
+                        <td>{{ loan.borrowdatetime }}</td>
+                        <td>{{ loan.returndatetime }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

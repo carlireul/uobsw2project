@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
 from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm
-from app.models import Student, Loan
+from app.models import Student, Loan, Device
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 
@@ -63,7 +63,7 @@ def borrow():
             form.student_id.errors.append("Student is not registered.") # with this append method it shows next to the form
             
         # check if item is already being loaned 
-        elif Loan.query.filter(Loan.device_id == form.device_id.data).first():
+        elif Loan.query.filter(Loan.device_id == form.device_id.data).first().returndatetime is None:
             form.device_id.errors.append("Device is already out for loan.")
         
         # if everything is okay then new loan added to database 
@@ -132,14 +132,15 @@ def remove_student():
 @app.route('/reports', methods=['GET', 'POST'])
 def reports():
     form = ReportForm()
-    device = None 
+    loan = None
     student = None
     
     if form.validate_on_submit():
         student = Student.query.filter_by(student_id=form.student_id.data).first()
-        device = Loan.query.filter_by(device_id=form.device_id.data).first()
+        
+        loan = Loan.query.filter_by(device_id=form.device_id.data).all()
 
-    return render_template('reports.html', title="Reports", form=form, device_data=device, student_data=student)
+    return render_template('reports.html', title="Reports", form=form, student_data=student, loan_data=loan)
 
 
 @app.route('/deactivate', methods=['GET', 'POST'])
