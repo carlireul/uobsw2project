@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, DateField, TextAreaField, DecimalField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, DateField, TextAreaField, DecimalField, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 from datetime import datetime, timedelta
 from app.models import Student, Loan
@@ -81,3 +81,8 @@ class DeactivateStudentForm(FlaskForm):
             	'There is no student with this id in the system')
         if not Student.query.get(student_id.data).active:
             raise ValidationError('This student is already deactivated')
+
+class SearchForm(FlaskForm):
+    search_query = StringField('', validators=[DataRequired()])
+    choice = RadioField('', choices=[('student', 'student'), ('device', 'device')])
+    submit = SubmitField('Submit')

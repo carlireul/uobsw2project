@@ -2,7 +2,7 @@ What is the app currently missing:
     - Core functionality:
         ○ Searching for student and device (Simi)
         ○ Login functionality (Sophie)
-        ○ Digital device table added to database (Carly)
+        X Digital device table added to database (Carly)
         ○ File upload (Rotimi)
     - Missing sidebar information (Monica)
         ○ Notice board for library events?
@@ -12,4 +12,4 @@ What is the app currently missing:
         ○ Split into different drop downs 
         ○ Make collapsable 
         ○ Only show the relevant tabs depending if you're logged in or not
-    -Adding assignment 1a and b functionality (Carly) 
+    X Adding assignment 1a and b functionality (Carly) 
