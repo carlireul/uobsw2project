@@ -46,8 +46,24 @@ def register():
             flash('Please enter a valid date of birth.')
             return render_template('registration.html', title="Register", form=form)
         
-        flash(f'Registration for {form.username.data} received, login to continue.', 'success') # return to login after successfully registering
-        return redirect(url_for('login'))
+        
+        new_user = User(username=form.username.data, email=form.email.data)
+        new_user.set_password(form.password.data)
+        db.session.add(new_user)
+        
+        try:
+            db.session.commit()
+            flash(f'Registration for {form.username.data} received, login to continue.', 'success') # return to login after successfully registering
+            return redirect(url_for('login'))
+        except:
+            db.session.rollback()
+            if User.query.filter_by(username=form.username.data):
+                form.username.errors.append(
+                    'This username is already taken. Please choose another')
+            if User.query.filter_by(email=form.email.data).first():
+                form.email.errors.append(
+                    'This email address is already registered. Please choose another')
+            
     return render_template('registration.html', title="Register", form=form)
 
 @app.route('/add_student', methods=['GET', 'POST'])
