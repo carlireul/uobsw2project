@@ -188,3 +188,15 @@ def search():
         return render_template('search.html', result=result, form=form)
         
     return render_template('search.html', result=None,form=form)
+
+@app.route("/important_information")
+def important_information():
+    return render_template("important_information.html")
+
+@app.route("/library_announcements")
+def library_announcements():
+    return render_template("library_announcements.html")
+
+@app.route("/events_calendar")
+def events_calendar():
+    return render_template("events_calendar.html")

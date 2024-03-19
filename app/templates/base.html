@@ -47,9 +47,15 @@
                 <h3>Sidebar</h3>
                 <p class="text-muted">Check out our latest notices.</p>
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Important Information</li>
-                    <li class="list-group-item list-group-item-light">Library Announcements</li>
-                    <li class="list-group-item list-group-item-light">Events Calendar</li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('important_information')}}">Important Information</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('library_announcements')}}">Library Announcements</a>
+                        </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('events_calendar')}}">Events Calendar</a>
+                        </li>
                 </ul>
             </div>
         </div>
