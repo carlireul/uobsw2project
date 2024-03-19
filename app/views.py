@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
-from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm
+from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm, SearchForm
 from app.models import Student, Loan, Device, User
 from datetime import datetime
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from flask_login import logout_user, login_required, current_user, login_user
 from urllib.parse import urlsplit
@@ -194,3 +195,35 @@ def display_students():
     students = Student.query.all()
 
     return render_template('view_students.html', students=students)
+
+
+@app.route('/search/', methods=['GET', 'POST'])
+def search():
+    form = SearchForm()
+    
+    if form.validate_on_submit():
+        if form.choice.data == 'student':
+            result = Student.query.filter(or_(Student.firstname.contains(form.search_query.data), Student.lastname.contains(
+                form.search_query.data), Student.username.contains(form.search_query.data), Student.email.contains(form.search_query.data))).all()
+        
+        elif form.choice.data == 'device':
+            result = Device.query.filter(Device.device_type.contains(form.search_query.data)).all()
+            
+        if len(result) == 0:
+            result = ['No results found']
+        
+        return render_template('search.html', result=result, form=form)
+        
+    return render_template('search.html', result=None,form=form)
+
+@app.route("/important_information")
+def important_information():
+    return render_template("important_information.html")
+
+@app.route("/library_announcements")
+def library_announcements():
+    return render_template("library_announcements.html")
+
+@app.route("/events_calendar")
+def events_calendar():
+    return render_template("events_calendar.html")

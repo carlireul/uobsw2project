@@ -15,8 +15,9 @@
             <li class="nav-item active"><a class="nav-link" href="{{ url_for ('return_loan')}}">Return</a></li>
             <li class="nav-item active"><a class="nav-link" href="{{ url_for ('add_student')}}">Add Student</a></li>
             <li class="nav-item active"><a class="nav-link" href="{{ url_for ('remove_student')}}">Remove Student</a></li>
-            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('reports')}}">Reports</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('search')}}">Search</a></li>
             <li class="nav-item active"><a class="nav-link" href="{{ url_for ('display_students')}}">View Students</a></li>
+            <li class="nav-item active"><a class="nav-link" href="{{ url_for ('reports')}}">View Reports</a></li>
             <li class="nav-item active"><a class="nav-link" href="{{ url_for ('deactivate')}}">Deactivate</a></li>
         </ul>
         <ul class="navbar-nav">
@@ -41,8 +42,29 @@
 
     <h1 class="text-center"> Databases </h1>
 
-    {% block content %} 
-    {% endblock %} 
+    <div class="row">
+        <div class="col-sm-8">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="col-md-4">
+            <div class="content-section">
+                <h3>Sidebar</h3>
+                <p class="text-muted">Check out our latest notices.</p>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('important_information')}}">Important Information</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('library_announcements')}}">Library Announcements</a>
+                        </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="nav-link" href="{{ url_for ('events_calendar')}}">Events Calendar</a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     </main>
 </body>
