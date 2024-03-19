@@ -37,8 +37,23 @@
 
     <h1 class="text-center"> Databases </h1>
 
-    {% block content %} 
-    {% endblock %} 
+    <div class="row">
+        <div class="col-sm-8">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="col-md-4">
+            <div class="content-section">
+                <h3>Sidebar</h3>
+                <p class="text-muted">Check out our latest notices.</p>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Important Information</li>
+                    <li class="list-group-item list-group-item-light">Library Announcements</li>
+                    <li class="list-group-item list-group-item-light">Events Calendar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     </main>
 </body>
