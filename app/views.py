@@ -57,7 +57,7 @@ def register():
             return redirect(url_for('login'))
         except:
             db.session.rollback()
-            if User.query.filter_by(username=form.username.data):
+            if User.query.filter_by(username=form.username.data).first():
                 form.username.errors.append(
                     'This username is already taken. Please choose another')
             if User.query.filter_by(email=form.email.data).first():

@@ -1,6 +1,5 @@
 TODO:
 - Core functionality
-    - Login (Sophie)
     - File upload (Rotimi)
 - Clean nav bar 
     - Split into different drop downs 
@@ -9,9 +8,10 @@ TODO:
 - Search improvements
     - Make not ugly
     - Links
+- Registration
+    - Add other data to database (dob, address, number, height/weight)
 
 OPTIONAL:
-- Production deployment
 - More databases with create/display functionality
     - Events
     - Announcements
@@ -21,3 +21,6 @@ DONE:
 - Student + device search
 - Assignment 1a + 1b functionality
 - Sidebar items
+- Login
+- Production deployment
+- New user registration
