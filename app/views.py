@@ -1,9 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db
 from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm
-from app.models import Student, Loan, Device
+from app.models import Student, Loan, Device, User
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
+from flask_login import logout_user, login_required, current_user, login_user
+from urllib.parse import urlsplit
 
 @app.route("/")
 def index():
@@ -11,11 +13,28 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Login for {form.username.data}', 'info')
-        return redirect(url_for('index'))
+        user = User.query.filter_by(
+                username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password', 'danger')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        flash(f'Login for {form.username.data}', 'success')
+        next_page = request.args.get('next')
+        if not next_page or urlsplit(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -31,6 +50,7 @@ def register():
     return render_template('registration.html', title="Register", form=form)
 
 @app.route('/add_student', methods=['GET', 'POST'])
+@login_required
 def add_student():
     form = AddStudentForm()
     if form.validate_on_submit():
@@ -50,6 +70,7 @@ def add_student():
     return render_template('add_student.html', title='Add Student', form=form)
 
 @app.route("/borrow", methods=["GET", "POST"])
+@login_required
 def borrow():
     form = BorrowForm()
     if form.validate_on_submit():
@@ -81,6 +102,7 @@ def borrow():
     return render_template("borrow.html", form=form)
 
 @app.route("/return_loan", methods=['GET', 'POST'])
+@login_required
 def return_loan():
     form = ReturnForm()
     if form.validate_on_submit():
@@ -102,6 +124,7 @@ def return_loan():
     return render_template("return_loan.html", form=form)
 
 @app.route('/remove_student', methods=['GET', 'POST', 'DELETE'])
+@login_required
 def remove_student():
     form = RemoveStudentForm()
     
@@ -130,6 +153,7 @@ def remove_student():
     return render_template('remove_student.html', title='Remove Student', form=form)
 
 @app.route('/reports', methods=['GET', 'POST'])
+@login_required
 def reports():
     form = ReportForm()
     loan = None
@@ -144,6 +168,7 @@ def reports():
 
 
 @app.route('/deactivate', methods=['GET', 'POST'])
+@login_required
 def deactivate():
     form = DeactivateStudentForm()
 
@@ -163,6 +188,7 @@ def deactivate():
 
 
 @app.route('/display_students')
+@login_required
 def display_students():
 
     students = Student.query.all()

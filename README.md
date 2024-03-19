@@ -13,3 +13,5 @@ What is the app currently missing:
         ○ Make collapsable 
         ○ Only show the relevant tabs depending if you're logged in or not
     -Adding assignment 1a and b functionality (Carly) 
+    - Add an error handler 
+    - Add toggle buttons to activate and deactivate students 
