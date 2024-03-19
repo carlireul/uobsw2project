@@ -7,7 +7,7 @@ from flask_login import LoginManager
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ(['SECRET_KEY'])
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 csrf = CSRFProtect(app)
 login = LoginManager(app)
 login.login_view = 'login'
