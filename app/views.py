@@ -3,6 +3,7 @@ from app import app, db
 from app.forms import RegistrationForm, BorrowForm, AddStudentForm, ReturnForm, LoginForm, RemoveStudentForm, ReportForm, DeactivateStudentForm, SearchForm
 from app.models import Student, Loan, Device
 from datetime import datetime
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 
 @app.route("/")
@@ -176,8 +177,8 @@ def search():
     
     if form.validate_on_submit():
         if form.choice.data == 'student':
-            result = Student.query.filter(Student.firstname.contains(form.search_query.data), Student.lastname.contains(
-                form.search_query.data), Student.username.contains(form.search_query.data), Student.email.contains(form.search_query.data)).all()
+            result = Student.query.filter(or_(Student.firstname.contains(form.search_query.data), Student.lastname.contains(
+                form.search_query.data), Student.username.contains(form.search_query.data), Student.email.contains(form.search_query.data))).all()
         
         elif form.choice.data == 'device':
             result = Device.query.filter(Device.device_type.contains(form.search_query.data)).all()
